@@ -75,5 +75,7 @@ def vl_mylog(X, dzdy):
                 symmetric = 1./ 2 * (nonsymmetric + nonsymmetric.T)
                 
                 dzdx = U.dot(symmetric + dDiag(dLdS)).dot(U.T)
-
-return Y
+            
+            Y[ix] = dzdx
+        
+        return Y
