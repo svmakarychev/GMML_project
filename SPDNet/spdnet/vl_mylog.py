@@ -57,16 +57,22 @@ def vl_mylog(X, dzdy):
             dldS = diagInv(S).dot(U.T.dot(dldC).dot(U))
             
             if np.sum(ind) == 1:
-                K = 1. / (S[1].dot(np.ones((1, Dmin))) - (S[1].dot(np.ones((1, Dmin)))).T)
-                K[np.eye(K.shape[0]) > 0] = 0
+                #K = 1. / (S[1].dot(np.ones((1, Dmin))) - (S[1].dot(np.ones((1, Dmin)))).T)
+                #K[np.eye(K.shape[0]) > 0] = 0
+                K = diag(S).reshape(-1,)
+                K = np.repeat(K.reshape(1,-1), K.shape[0], axis=0) - np.repeat(K.reshape(-1,1), K.shape[0], axis=1)
+                K = np.where(np.abs(K) < 1e-6, np.inf, K)
+                K = 1. / K
             
             else:
-                K = 1./(np.diag(S).dot(np.ones((1, Dmin))) - (np.diag(S).dot(np.ones((1, Dmin)))).T)
-                K[np.eye(K.shape[0]) > 0] = 0
-                
-                isinf = np.where(np.isinf(K), 1, K)
-                k[np.flatnonzero(isinf.T)] = 0
-            
+                #K = 1./(np.diag(S).dot(np.ones((1, Dmin))) - (np.diag(S).dot(np.ones((1, Dmin)))).T)
+                #K[np.eye(K.shape[0]) > 0] = 0
+                #isinf = np.where(np.isinf(K), 1, K)
+                #k[np.flatnonzero(isinf.T)] = 0
+                K = diag(S).reshape(-1,)
+                K = np.repeat(K.reshape(1,-1), K.shape[0], axis=0) - np.repeat(K.reshape(-1,1), K.shape[0], axis=1)
+                K = np.where(np.abs(K) < 1e-6, np.inf, K)
+                K = 1. / K
             if np.all(diagS == 1):
                 dzdx = np.zeros((D, D))
             
