@@ -10,3 +10,4 @@ def vl_mysoftmaxloss(X,c,dzdy):
         return output
     else:
         dzdy = dzdy - np.exp(output) * (np.sum(dzdy, axis=0) / np.sum(np.exp(output), axis=0)).reshape(-1,1)
+        return dzdy
