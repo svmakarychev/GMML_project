@@ -13,13 +13,15 @@ def vl_myrec(X, epsilon, dzdy=None):
         svd_s[i,:] = s
         svd_v[i,:,:] = v
     
-    answer = input.data.numpy()
+    answer = X.copy()
+    
     if dzdy is None:
         for i, data in enumerate(X):
             eigenvalues, eigenvectors = np.linalg.eig(data)
             eigenvalues = np.maximum(eigenvalues, epsilon)
             answer[i,:,:] = eigenvectors.dot(np.diag(eigenvalues).dot(eigenvectors.T))
         return answer
+    
     else:
         for i in range(X.shape[0]):
             U, S, V = svd_u[i], np.diag(svd_s[i]), svd_v[i]
@@ -43,3 +45,4 @@ def vl_myrec(X, epsilon, dzdy=None):
             
             dzdx = U.dot(symmetric(K.T.dot(U.T.dot(dLdV)) + dDiag(dLdS))).dot(U.T)
             answer[i, :, :] = dzdx
+        return answer
