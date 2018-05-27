@@ -1,6 +1,7 @@
 import numpy as np
 import scipy
 
+#надо понять, как все же подаются матрицы и выставить правильно размерности
 def vl_myrec(X, epsilon, dzdy=None):
     svd_u = np.zeros((X.shape[2], X.shape[0], X.shape[0]))
     svd_s = np.zeros((X.shape[2], np.min(X.shape)))
