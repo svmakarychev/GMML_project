@@ -1,7 +1,17 @@
-def vl_myfc(X, W, dzdy=None):
+import numpy as np
+
+def vl_myfunc(X, W, dzdy=None):
+    
+    
+    X_t = X.reshape(X.shape[0], -1, order = 'F')
+    
     if dzdy is None:
-        return W.T.dot(X)
+        
+        return (X_t.dot(W))
+    
     else:
-        Y = W.dot(dzdy)
-        Y_w = X.dot(dzdy.T)
+        
+        Y = dzdy.dot(W.T)
+        Y_w = X_t.T.dot(dzdy)
+        
         return Y, Y_w
